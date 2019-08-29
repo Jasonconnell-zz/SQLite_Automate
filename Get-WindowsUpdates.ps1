@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS Get/Install Windows Updates
 .DESCRIPTION Based off the win32api https://docs.microsoft.com/en-us/windows/win32/wua_sdk/using-the-windows-update-agent-api
 .Example Get-WindowsUpdates
@@ -379,7 +379,7 @@ Function Schedule-PatchInstall {
     $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
     $adminStatus = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
-    if ($adminStatus -eq False){
+    if (-NOT($adminStatus)){
         Write-Output 'This procedure needs to be run as administrator'
         break
         }
