@@ -280,10 +280,10 @@ Function Stop-WindowsUpdateServices($service) {
     Try{
 
         if ((Get-Service -Name $service).Status -eq 'Stopped') {
-            Write-Output 'Service is stopped'
+            return
         }
         Else {
-            Write-Output 'Service is Running'
+            
 
             # Stop Windows Upadate service
             Try{
@@ -316,7 +316,7 @@ Function Start-WindowsUpdateServices($service) {
             Start-Service -Name $service
         }
         Else{
-            Write-Output 'Service is Running'
+            return
         }
     }
     Catch {
