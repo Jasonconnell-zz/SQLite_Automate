@@ -67,10 +67,12 @@ Function Get-WindowsUpdateToCSV {
     Author: Jason Connell
     Creation Date: 8/09/2019
 #>
+    $csvFileLocation = "C:\windows\Temp\WindowsUpdateExport.csv"
     $UpdateSession = New-Object -ComObject Microsoft.Update.Session
     $UpdateSearcher = $UpdateSession.CreateUpdateSearcher()
     $SearchResults = $UpdateSearcher.Search("IsInstalled=0 and Type='Software' and IsHidden=0")
-    $SearchResults.Updates | select Title, SupportUrl, EulaAccepted, IsDownloaded, IsHidden, LastDeploymentChangeTime, MaxDownloadSize, MsrcSeverity | Export-Csv -Path C:\windows\Temp\WindowsUpdateExport.csv
+    $SearchResults.Updates | select Title, SupportUrl, EulaAccepted, IsDownloaded, IsHidden, LastDeploymentChangeTime, MaxDownloadSize, MsrcSeverity | Export-Csv -Path $csvFileLocation
+    Invoke-Item -Path $csvFileLocation
 }
 
 
