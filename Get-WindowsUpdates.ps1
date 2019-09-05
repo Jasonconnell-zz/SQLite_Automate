@@ -283,7 +283,7 @@ Function Stop-WindowsUpdateServices($service) {
             return
         }
         Else {
-            
+
 
             # Stop Windows Upadate service
             Try{
@@ -345,8 +345,20 @@ Function Reset-SoftwareDistribution {
         Stop-WindowsUpdateServices($item)
     }
 
+    # Get Current datetime to append to filename
+    $curentDateTime = Get-Date -Format "MM:dd:yyyy:HH:mm:ss" | ForEach-Object {$_ -replace":", "-" }
+    $NewSoftwareDistributionPath = $SOFTWAREDISTRIBUTION_DIR + $curentDateTime
+
+
     # Rename SoftwareDistribution Folder
-    Rename-Item $SOFTWAREDISTRIBUTION_DIR -NewName 'SoftwareDistributionold'
+    Try{
+      Rename-Item $SOFTWAREDISTRIBUTION_DIR -NewName $NewSoftwareDistributionPath
+    }
+    Catch{
+      Write-Output "Failed to Rename  SoftwareDistribution Folder"
+      break
+    }
+
 
     # Start Services
     foreach ($item in $Services){
